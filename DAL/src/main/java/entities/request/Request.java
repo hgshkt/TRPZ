@@ -1,7 +1,5 @@
 package entities.request;
 
-import entities.user.Employee;
-import entities.vacation.DefaultVacation;
 import entities.vacation.Vacation;
 
 import java.util.Date;
