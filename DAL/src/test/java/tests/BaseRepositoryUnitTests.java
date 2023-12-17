@@ -4,10 +4,11 @@ import ORM.VacationContext;
 import entities.user.Employee;
 import org.junit.Test;
 import repositories.impl.user.TestEmployeeRepository;
-import static org.junit.Assert.assertEquals;
+
 import javax.persistence.EntityManager;
 import javax.persistence.EntityTransaction;
 
+import static org.junit.Assert.assertEquals;
 import static org.mockito.Mockito.*;
 
 public class BaseRepositoryUnitTests {
@@ -55,5 +56,26 @@ public class BaseRepositoryUnitTests {
         // Assert
         verify(mockEntityManager, times(1)).find(Employee.class, (int) expectedEmployee.id);
         assertEquals(expectedEmployee, actualEmployee);
+    }
+
+    @Test
+    public void Delete_InputId_CalledFindAndRemoveMethodsOfEntityManagerWithCorrectArg() {
+        // Arrange
+        var mockTransaction = mock(EntityTransaction.class);
+
+        var mockEntityManager = mock(EntityManager.class);
+        when(mockEntityManager.getTransaction()).thenReturn(mockTransaction);
+
+        var mockVacationContext = mock(VacationContext.class);
+        when(mockVacationContext.getEntityManager()).thenReturn(mockEntityManager);
+
+        var repository = new TestEmployeeRepository(mockVacationContext);
+        var expectedEmployee = new Employee(1);
+
+        // Act
+        repository.delete(expectedEmployee);
+
+        // Assert
+        verify(mockEntityManager, times(1)).remove(expectedEmployee);
     }
 }
