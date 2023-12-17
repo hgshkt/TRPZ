@@ -10,4 +10,12 @@ import javax.persistence.Id;
 public class Employee extends User {
     @Id
     public long id;
+
+    public Employee(long id) {
+        this.id = id;
+    }
+
+    public Employee() {
+
+    }
 }
