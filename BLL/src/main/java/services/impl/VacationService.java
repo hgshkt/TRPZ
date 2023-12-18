@@ -9,6 +9,7 @@ import security.indentity.PersonalServiceEmployee;
 import services.interfaces.IVacationService;
 import unitOfWork.IUnitOfWork;
 
+import java.rmi.AccessException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -31,8 +32,7 @@ public class VacationService implements IVacationService {
         var user = getUser();
         var userType = user.getUserType();
         if (!userType.equals(Employee.class.getName())
-                && !userType.equals(PersonalServiceEmployee.class.getName())
-                && !userType.equals(Administrator.class.getName())) {
+                && !userType.equals(PersonalServiceEmployee.class.getName())) {
             throw new IllegalArgumentException();
         }
 
