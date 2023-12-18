@@ -10,6 +10,7 @@
           <set>
             <option value="$PROJECT_DIR$" />
             <option value="$PROJECT_DIR$/BLL" />
+            <option value="$PROJECT_DIR$/CCL" />
             <option value="$PROJECT_DIR$/DAL" />
           </set>
         </option>
