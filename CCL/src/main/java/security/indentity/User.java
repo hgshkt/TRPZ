@@ -25,4 +25,8 @@ public abstract class User {
     public String getSurname() {
         return surname;
     }
+
+    public String getUserType() {
+        return userType;
+    }
 }
