@@ -2,6 +2,7 @@ package services.impl;
 
 import DTO.VacationDTO;
 import entities.user.Employee;
+import entities.vacation.DefaultVacation;
 import entities.vacation.Vacation;
 import security.indentity.Administrator;
 import security.indentity.PersonalServiceEmployee;
@@ -9,6 +10,7 @@ import services.interfaces.IVacationService;
 import unitOfWork.IUnitOfWork;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import static security.SecurityContext.getUser;
 
@@ -34,7 +36,7 @@ public class VacationService implements IVacationService {
             throw new IllegalArgumentException();
         }
 
-        ArrayList<Vacation> vacations = database.vacations.find();
+        List<DefaultVacation> vacations = database.getDefaultVacationRepository().getAll(DefaultVacation.class);
         ArrayList<VacationDTO> vacationsDTO = new ArrayList<>();
 
         for (Vacation vacation : vacations) {
