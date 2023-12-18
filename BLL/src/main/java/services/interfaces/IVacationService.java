@@ -1,9 +1,9 @@
 package services.interfaces;
 
-import DTO.VacationDTO;
+import DTO.DefaultVacationDTO;
 
 import java.util.ArrayList;
 
 public interface IVacationService {
-    ArrayList<VacationDTO> getVacations(int page);
+    ArrayList<DefaultVacationDTO> getVacations(int page);
 }

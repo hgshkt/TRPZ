@@ -1,15 +1,13 @@
 package services.impl;
 
-import DTO.VacationDTO;
-import entities.user.Employee;
+import DTO.DefaultVacationDTO;
 import entities.vacation.DefaultVacation;
-import entities.vacation.Vacation;
-import security.indentity.Administrator;
+import mapper.VacationMapper;
+import security.indentity.Employee;
 import security.indentity.PersonalServiceEmployee;
 import services.interfaces.IVacationService;
 import unitOfWork.IUnitOfWork;
 
-import java.rmi.AccessException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -20,35 +18,27 @@ public class VacationService implements IVacationService {
     private IUnitOfWork database;
     private int pageSize = 10;
 
-    public VacationService(IUnitOfWork unitOfWork) {
-        if (unitOfWork == null)
+    private VacationMapper mapper;
+
+    public VacationService(IUnitOfWork unitOfWork, VacationMapper mapper) {
+        if (unitOfWork == null || mapper == null)
             throw new NullPointerException();
 
         this.database = unitOfWork;
+        this.mapper = mapper;
     }
 
     @Override
-    public ArrayList<VacationDTO> getVacations(int page) {
+    public ArrayList<DefaultVacationDTO> getVacations(int page) {
         var user = getUser();
         var userType = user.getUserType();
         if (!userType.equals(Employee.class.getName())
-                && !userType.equals(PersonalServiceEmployee.class.getName())) {
+                & !userType.equals(PersonalServiceEmployee.class.getName())) {
             throw new IllegalArgumentException();
         }
 
         List<DefaultVacation> vacations = database.getDefaultVacationRepository().getAll(DefaultVacation.class);
-        ArrayList<VacationDTO> vacationsDTO = new ArrayList<>();
-
-        for (Vacation vacation : vacations) {
-            var vacationDTO = new VacationDTO();
-
-            vacationDTO.id = vacation.id;
-            vacationDTO.employee = vacation.employee;
-            vacationDTO.startDate = vacation.startDate;
-            vacationDTO.endDate = vacation.endDate;
-
-            vacationsDTO.add(vacationDTO);
-        }
+        ArrayList<DefaultVacationDTO> vacationsDTO = mapper.defaultVacationsToDTO(vacations);
 
         return vacationsDTO;
     }
